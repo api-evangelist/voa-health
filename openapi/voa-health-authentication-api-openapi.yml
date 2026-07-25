@@ -1,0 +1,70 @@
+openapi: 3.1.0
+info:
+  title: Voa Integration Identify Authentication API
+  version: v1
+  description: Exchanges a long-lived Voa Auth Token for a short-lived per-consultation Bearer JWT used to embed the Voa iFrame/plugin and to call the Voa integration APIs (including RNDS). The Auth Token is sent in the `x-voa-token` header; the returned JWT expiration is configurable via the `expiration` field (seconds).
+  contact:
+    name: Voa integration team
+    email: integration@voahealth.com
+    url: https://docs.voa.health/integracao/iframe/autenticacao
+servers:
+- url: https://api.voa.health
+  description: Production
+tags:
+- name: Authentication
+paths:
+  /integration/identify/:
+    post:
+      tags:
+      - Authentication
+      summary: Obter Bearer Token para uma consulta
+      description: Returns a secure Bearer JWT for a specific consultation, created from your Auth Token. Each consultation requires its own Bearer token.
+      operationId: identify
+      security:
+      - authToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - consultation_id
+              - doctor_id
+              - patient_id
+              properties:
+                consultation_id:
+                  type: string
+                  description: Identificador da consulta.
+                doctor_id:
+                  type: string
+                  description: Identificador do médico.
+                patient_id:
+                  type: string
+                  description: Identificador do paciente.
+                expiration:
+                  type: integer
+                  description: Validade do token em segundos.
+                  example: 43200
+      responses:
+        '200':
+          description: Bearer token emitido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Bearer JWT.
+components:
+  securitySchemes:
+    authToken:
+      type: apiKey
+      in: header
+      name: x-voa-token
+      description: Voa Auth Token issued to the integrating partner.
+x-provenance:
+  generated: '2026-07-21'
+  method: derived
+  source: Derived faithfully from https://docs.voa.health/integracao/iframe/autenticacao.md (the production Bearer-token exchange endpoint, request headers and body, and response quoted verbatim from the docs). No published OpenAPI was found.
