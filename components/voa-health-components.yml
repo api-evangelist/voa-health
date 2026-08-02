@@ -1,0 +1,52 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  https://docs.voa.health/inicio/integrations.md,
+  https://docs.voa.health/integracao/plugin.md,
+  https://docs.voa.health/integracao/iframe.md, and
+  https://docs.voa.health/integracao/extension.md — Voa's embeddable,
+  client-side integration surfaces for embedding the AI clinical assistant into
+  an EHR (PEP) with "a few lines of code."
+description: >-
+  Voa's embeddable UI surfaces that render the AI clinical documentation
+  assistant inside a host EHR/PEP in the browser — distinct from any server-side
+  SDK. Three families: an embeddable Plugin/widget, an iFrame widget, and a
+  browser extension. All communicate with the host page via typed
+  window.postMessage events and are authorized with a per-consultation Bearer
+  JWT.
+docs:
+  - https://docs.voa.health/inicio/integrations
+  - https://docs.voa.health/integracao/plugin
+  - https://docs.voa.health/integracao/iframe
+  - https://docs.voa.health/integracao/extension
+families:
+  plugin:
+    description: >-
+      Embed the Voa assistant directly inside the host EHR so physicians access
+      Voa without leaving their familiar environment. Supports typed page
+      messaging, structured output back to the host, and file upload (attach
+      reports/exams via the UI or programmatically from the host page).
+    docs: https://docs.voa.health/integracao/plugin
+    capabilities:
+      - {name: Comunicação com a página, description: Typed postMessage protocol between plugin and host page., docs: https://docs.voa.health/integracao/plugin/mensagens}
+      - {name: Output estruturado, description: Structured clinical output emitted back to the host., docs: https://docs.voa.health/integracao/plugin/output-estruturado}
+      - {name: Upload de Arquivos, description: Attach reports/exams via UI or programmatically from the host page., docs: https://docs.voa.health/integracao/plugin/upload-de-arquivos}
+  iframe:
+    description: >-
+      iFrame widget embedding of the Voa assistant, authorized via Auth Token
+      (dev) or per-consultation Bearer JWT (prod). Ships a library of
+      specialty-specific anamnesis templates (Modelos) covering ~25 specialties
+      plus SOAP and ward-evolution notes.
+    docs: https://docs.voa.health/integracao/iframe
+    capabilities:
+      - {name: Instalação, docs: https://docs.voa.health/integracao/iframe/instalacao}
+      - {name: Autenticação, description: Auth Token (dev) or per-consultation Bearer JWT (prod)., docs: https://docs.voa.health/integracao/iframe/autenticacao}
+      - {name: Tipos de mensagem, description: Typed postMessage event types., docs: https://docs.voa.health/integracao/iframe/tipos-de-mensagem}
+      - {name: Modelos, description: Specialty templates (cardiology, dermatology, pediatrics, psychiatry, SOAP, etc.)., docs: https://docs.voa.health/integracao/iframe/modelos}
+  browser_extension:
+    description: >-
+      Browser extension giving physicians quick access to Voa directly in the
+      browser, complementing their EHR system.
+    docs: https://docs.voa.health/integracao/extension
+    capabilities:
+      - {name: Instalação e uso, docs: https://docs.voa.health/integracao/extension/instalacao-e-uso}

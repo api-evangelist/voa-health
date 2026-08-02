@@ -1,27 +1,138 @@
 aid: voa-health
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/voa-health.png
 name: VOA Health
-description: 'VOA Health is a company surfaced as a portfolio company of prosus-ventures and added to
-  the API Evangelist network as a stub for enrichment. Sector: health. This profile is a lead awaiting
-  the enrichment pipeline.'
+description: >-
+  Voa is a Brazilian healthcare-technology company providing an AI clinical
+  documentation and patient-monitoring assistant that embeds directly into
+  electronic patient record (EHR/PEP) systems, used by 60,000+ physicians across
+  1M+ consultations. Voa exposes integration surfaces — an embeddable plugin, an
+  iFrame widget, and a browser extension — plus a REST integration API and an
+  RNDS API that submits finalized clinical records to Brazil's Rede Nacional de
+  Dados em Saúde (national health data network) in FHIR R4 using ICP-Brasil
+  certificate authentication. Backed by Prosus Ventures.
 url: https://raw.githubusercontent.com/api-evangelist/voa-health/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - prosus-ventures
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: enriched-from-docs
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
 - Health
-apis: []
+- Healthcare
+- Clinical Documentation
+- EHR
+- FHIR
+- RNDS
+- Artificial Intelligence
+- Brazil
+apis:
+- aid: voa-health:voa-health-authentication-api
+  name: VOA Health Authentication API
+  description: The Authentication API from VOA Health — 1 operation(s) for authentication.
+  humanURL: https://docs.voa.health/integracao/rnds
+  baseURL: https://integration.voa.health/v1
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/voa-health-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://docs.voa.health/integracao/rnds
+  - type: APIReference
+    url: https://docs.voa.health/integracao/rnds/endpoints
+  - type: Documentation
+    url: https://docs.voa.health/integracao/iframe/autenticacao
+- aid: voa-health:voa-health-rnds-api
+  name: VOA Health RNDS API
+  description: Submit, query, replace, and delete clinical records on the RNDS national bus.
+  humanURL: https://docs.voa.health/integracao/rnds
+  baseURL: https://integration.voa.health/v1
+  tags:
+  - RNDS
+  properties:
+  - type: OpenAPI
+    url: openapi/voa-health-rnds-api-openapi.yml
+  - type: Documentation
+    url: https://docs.voa.health/integracao/rnds
+  - type: APIReference
+    url: https://docs.voa.health/integracao/rnds/endpoints
+  - type: Documentation
+    url: https://docs.voa.health/integracao/iframe/autenticacao
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+- FN: Voa Integration Team
+  email: integration@voahealth.com
 common:
 - type: Website
   url: https://voa.health
+- type: DeveloperPortal
+  url: https://docs.voa.health
+- type: Documentation
+  url: https://docs.voa.health
+- type: APIReference
+  url: https://docs.voa.health/integracao/rnds/endpoints
+- type: GettingStarted
+  url: https://docs.voa.health/inicio/quickstart
+- type: Blog
+  url: https://voa.health/blog
+- type: SignUp
+  url: https://app.voa.health
+- type: Support
+  url: mailto:integration@voahealth.com
+- type: OpenAPI
+  url: openapi/voa-health-rnds-openapi.yml
+- type: Overlay
+  url: overlays/voa-health-rnds-overlay.yaml
+- type: Authentication
+  url: authentication/voa-health-authentication.yml
+- type: ErrorCatalog
+  url: errors/voa-health-problem-types.yml
+- type: Conventions
+  url: conventions/voa-health-conventions.yml
+- type: Conformance
+  url: conformance/voa-health-conformance.yml
+- type: Compliance
+  url: conformance/voa-health-conformance.yml
+- type: Lifecycle
+  url: lifecycle/voa-health-lifecycle.yml
+- type: LLMsTxt
+  url: llms/voa-health-llms.txt
+- type: Components
+  url: components/voa-health-components.yml
+- type: Sandbox
+  url: sandbox/voa-health-sandbox.yml
+- type: DataModel
+  url: data-model/voa-health-data-model.yml
+- type: MCPServer
+  url: mcp/voa-health-mcp.yml
+- type: WellKnown
+  url: well-known/voa-health-well-known.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DomainSecurity
+  url: security/voa-health-domain-security.yml
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 18
+  pass: local-v1

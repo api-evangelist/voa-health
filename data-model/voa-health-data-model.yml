@@ -1,0 +1,55 @@
+generated: '2026-07-21'
+method: derived
+source: >-
+  Derived from openapi/voa-health-rnds-openapi.yml (path/id references and
+  schema fields) and https://docs.voa.health/integracao/rnds/como-funciona.md
+  (FHIR resource mapping).
+description: >-
+  Entity-relationship view of the Voa RNDS integration domain, derived from the
+  API's identifiers and the FHIR resources Voa assembles for each submission.
+entities:
+  - name: EHR
+    description: A consultation / electronic patient record. Root of the RNDS submit/status/replace/delete operations.
+    id_field: ehr_id
+    id_prefix: ehr_
+  - name: RndsRecord
+    description: The record created on the RNDS national bus for a consultation.
+    id_field: rnds_record_id
+    id_prefix: rnds_
+  - name: Patient
+    description: The patient, identified nationally by CPF and/or CNS.
+    id_field: cpf
+  - name: Practitioner
+    description: The responsible health professional, identified by CNS.
+    id_field: cns
+  - name: Organization
+    description: The health establishment, identified by CNES code.
+    id_field: cnes
+relationships:
+  - from: EHR
+    to: RndsRecord
+    type: has_one
+    via: rnds_record_id
+  - from: EHR
+    to: Patient
+    type: belongs_to
+    via: patient_cpf
+  - from: EHR
+    to: Practitioner
+    type: belongs_to
+    via: practitioner_cns
+  - from: EHR
+    to: Organization
+    type: belongs_to
+    via: cnes
+  - from: RndsRecord
+    to: RndsRecord
+    type: has_one
+    via: previous_record_id
+    note: replace() links the new record to the record it superseded.
+fhir_mapping:
+  note: >-
+    On submit, Voa builds a FHIR R4 Bundle (Brazilian RNDS profiles) —
+    Composition, Encounter, Patient, Practitioner, Organization, Condition,
+    Procedure, MedicationRequest, Observation.
+  docs: https://docs.voa.health/integracao/rnds/como-funciona

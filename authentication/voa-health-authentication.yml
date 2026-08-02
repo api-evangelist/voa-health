@@ -1,0 +1,47 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  https://docs.voa.health/integracao/iframe/autenticacao.md and
+  https://docs.voa.health/integracao/rnds/como-funciona.md — Voa's documented
+  authentication model for the integration/iFrame/plugin and RNDS APIs.
+description: >-
+  Voa uses a two-token model. A long-lived Auth Token identifies the
+  integrating partner (dev convenience, sent as the x-voa-token header). For
+  production, that Auth Token is exchanged per-consultation for a short-lived
+  Bearer JWT (POST /integration/identify/) which authorizes iFrame/plugin
+  embedding and all Voa integration API calls, including RNDS. Voa's own
+  server-to-RNDS leg additionally uses ICP-Brasil A1 mutual-TLS (not exposed to
+  API clients).
+docs: https://docs.voa.health/integracao/iframe/autenticacao
+schemes:
+  - id: auth-token
+    type: apiKey
+    in: header
+    name: x-voa-token
+    environment: development
+    description: >-
+      Long-lived Auth Token identifying the integrating partner. Used directly
+      in requests during development without per-consultation renewal.
+  - id: bearer-jwt
+    type: http
+    scheme: bearer
+    bearer_format: JWT
+    environment: production
+    description: >-
+      Short-lived per-consultation JWT obtained by exchanging the Auth Token via
+      POST https://api.voa.health/integration/identify/. Expiration configurable
+      via the `expiration` field (seconds, e.g. 43200). Sent as
+      Authorization: Bearer <token> on every Voa integration and RNDS request.
+  - id: rnds-icp-brasil-mtls
+    type: mutualTLS
+    environment: production
+    client_facing: false
+    description: >-
+      Voa authenticates to the RNDS national bus using the establishment's
+      ICP-Brasil A1 digital certificate (e-CPF or e-CNPJ, .pfx/.p12) over mTLS,
+      obtaining a 30-minute RNDS JWT. Managed by Voa; not exposed to API
+      consumers. A3 (hardware token) certificates are not supported.
+oauth2: false
+notes:
+  - Rate limits apply per token (1000 req/hour, 10 req/second).
+  - RNDS submission adds 2-5s latency due to the national-bus round trip; async calls recommended.

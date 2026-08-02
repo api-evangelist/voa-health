@@ -1,0 +1,43 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  https://docs.voa.health/integracao/rnds/ativacao.md,
+  https://docs.voa.health/integracao/rnds/como-funciona.md, and
+  https://docs.voa.health/integracao/rnds/endpoints.md — versioning, RNDS
+  environment/activation lifecycle, and support channels.
+description: >-
+  Versioning, environments, and support lifecycle for the Voa integration/RNDS
+  API. Versioning is via URI path (v1). RNDS integrations move through a
+  DATASUS-supervised homologation → production activation path. No public
+  dated deprecation policy, Sunset/Deprecation headers, SLA, or status page were
+  found.
+versioning:
+  style: uri-path
+  current: v1
+  docs: https://docs.voa.health/integracao/rnds/endpoints
+environments:
+  - name: homologação
+    purpose: Testing and conformance validation against the RNDS homologation bus.
+  - name: produção
+    purpose: Official submission of clinical records to the RNDS national bus.
+environments_docs: https://docs.voa.health/integracao/rnds/como-funciona
+activation:
+  description: >-
+    RNDS integration is activated in partnership with the Voa team: DATASUS
+    credentialing (active CNES + RNDS access request), an ICP-Brasil A1
+    certificate, homologation testing, DATASUS approval, then production.
+  docs: https://docs.voa.health/integracao/rnds/ativacao
+deprecation_policy:
+  documented: false
+  notes: No dated deprecation policy or RFC 8594 Sunset/Deprecation headers documented.
+status_page:
+  found: false
+  notes: >-
+    No public status page located. The Voa team states it monitors integration
+    health and notifies establishments of anomalies (operational, not a public
+    status page).
+sla:
+  documented: false
+support:
+  email: integration@voahealth.com
+  docs: https://docs.voa.health/integracao/rnds

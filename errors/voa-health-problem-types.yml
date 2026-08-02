@@ -1,0 +1,47 @@
+generated: '2026-07-21'
+method: derived
+source: >-
+  Derived from the documented error responses in
+  https://docs.voa.health/integracao/rnds/endpoints.md (400/404/422 example
+  bodies quoted verbatim). Titles/remediation enriched from the surrounding docs.
+format: custom
+envelope:
+  description: >-
+    Voa returns a custom JSON error envelope (NOT RFC 9457 problem+json). Shape:
+    a machine-readable `error` code, a human-readable `message`, and an optional
+    `details` array carrying per-field or per-issue objects.
+  fields:
+    error: Machine-readable error code (string).
+    message: Human-readable description (Portuguese).
+    details: Optional array of {field, issue} or FHIR OperationOutcome-style {severity, code, diagnostics} objects.
+problem_types:
+  - code: validation_error
+    http_status: 400
+    title: Erro de validação
+    detail: A required field is missing or invalid (e.g. patient_cpf required for RNDS submit).
+    remediation: Inspect details[].field / details[].issue and correct the request body.
+  - code: rnds_rejected
+    http_status: 422
+    title: Registro rejeitado pela RNDS
+    detail: The record was rejected by the RNDS national bus (FHIR processing error).
+    remediation: Read details[].diagnostics; e.g. patient identifier not found in the national registry.
+  - code: not_found
+    http_status: 404
+    title: Envio não encontrado
+    detail: No RNDS submission exists for the requested consultation.
+    remediation: Verify the ehr_id and that a submit was performed.
+  - code: no_previous_submission
+    http_status: 400
+    title: Sem registro anterior
+    detail: A replace/delete was requested but no prior RNDS record exists for the consultation.
+    remediation: Submit a record before attempting replace or delete.
+  - code: patient_not_found
+    http_status: 404
+    title: Paciente não encontrado
+    detail: The patient was not found in the national registry (CADSUS).
+    remediation: Verify the CPF/CNS supplied.
+  - code: practitioner_not_found
+    http_status: 404
+    title: Profissional não encontrado
+    detail: The health professional was not found in the national registry by CNS.
+    remediation: Verify the CNS supplied.

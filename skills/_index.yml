@@ -1,0 +1,16 @@
+generated: '2026-07-21'
+method: generated
+source: >-
+  Packaged Agent Skills grounded in real operationIds from
+  openapi/voa-health-rnds-openapi.yml and openapi/voa-health-identify-openapi.yml.
+  No provider-published skills/AGENTS.md was found.
+description: >-
+  Agent Skills for the Voa RNDS integration API, mirroring the two marquee
+  clinical-record flows: submit to RNDS, and correct/remove a record.
+skills:
+  - name: submit-clinical-record-to-rnds
+    file: voa-health-submit-clinical-record-to-rnds.md
+    operations: [identify, submitRndsRecord, getRndsStatus]
+  - name: correct-or-remove-rnds-record
+    file: voa-health-correct-or-remove-rnds-record.md
+    operations: [getRndsStatus, replaceRndsRecord, deleteRndsRecord]

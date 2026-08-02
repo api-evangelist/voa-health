@@ -1,0 +1,33 @@
+overlay: 1.0.0
+x-provenance:
+  generated: '2026-07-21'
+  method: generated
+  source: >-
+    API Evangelist enrichment overlay for openapi/voa-health-rnds-openapi.yml.
+    Captures cross-cutting metadata (rate limits, FHIR/RNDS context, error
+    envelope, auth exchange) without mutating the base spec.
+info:
+  title: API Evangelist enrichment overlay — Voa RNDS API
+  version: 1.0.0
+extends: ../openapi/voa-health-rnds-openapi.yml
+actions:
+  - target: $.info
+    update:
+      x-rate-limits:
+        requests_per_hour: 1000
+        requests_per_second: 10
+        note: RNDS national-bus round trips add 2-5s latency; use async calls.
+      x-error-format: custom
+      x-error-detail: ../errors/voa-health-problem-types.yml
+      x-conventions: ../conventions/voa-health-conventions.yml
+      x-authentication: ../authentication/voa-health-authentication.yml
+      x-conformance: ../conformance/voa-health-conformance.yml
+      x-data-standard: FHIR R4 (Brazilian RNDS profiles)
+  - target: $.paths['/ehrs/{ehr_id}/rnds/submit'].post
+    update:
+      x-token-exchange: POST https://api.voa.health/integration/identify/ (Auth Token -> Bearer JWT)
+      x-fhir-document-types: [RAC, RPM, REL]
+  - target: $.paths['/ehrs/{ehr_id}/rnds'].delete
+    update:
+      x-irreversible: true
+      x-warning: Deletion on the RNDS national bus is irreversible.

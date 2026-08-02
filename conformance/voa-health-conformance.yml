@@ -1,0 +1,71 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  https://docs.voa.health/integracao/rnds/como-funciona.md and
+  https://docs.voa.health/integracao/rnds/endpoints.md (FHIR R4, ICP-Brasil
+  mTLS, TLS 1.2+, LGPD claims) plus derivation from openapi/*.yml
+  securitySchemes and error shape.
+description: >-
+  Industry and cross-cutting standards the Voa integration/RNDS API conforms to,
+  each with evidence. Voa's clinical-record submission is built on FHIR R4
+  Brazilian RNDS profiles with ICP-Brasil certificate mTLS and LGPD-aligned
+  auditing.
+standards:
+  - id: fhir-r4
+    conforms: true
+    evidence: >-
+      RNDS submissions are assembled as FHIR R4 Bundles using Brazilian RNDS
+      profiles (BRRegistroAtendimentoClínico, BRContatoAssistencial,
+      BRIndivíduo, BRProfissional, BREstabelecimentoSaúde, BRDiagnósticoAvaliado,
+      BRProcedimentoRealizado, BRPrescriçãoMedicamento, BRObservação).
+  - id: bearer-jwt-auth
+    conforms: true
+    evidence: >-
+      All integration/RNDS endpoints require Authorization Bearer JWT (openapi
+      securitySchemes.bearerAuth).
+  - id: mutual-tls
+    conforms: true
+    evidence: >-
+      Voa authenticates to the RNDS national bus with ICP-Brasil A1 digital
+      certificates over mTLS (e-CPF/e-CNPJ, .pfx/.p12).
+  - id: oauth2
+    conforms: false
+    evidence: >-
+      No OAuth 2.0 authorization flow; tokens are issued via a proprietary
+      Auth-Token → Bearer-JWT exchange (POST /integration/identify/), not OAuth.
+  - id: oidc
+    conforms: false
+    evidence: No /.well-known/openid-configuration on any Voa host (probed 404).
+  - id: rfc9457-problem-json
+    conforms: false
+    evidence: >-
+      Errors use a custom { error, message, details } envelope, not
+      application/problem+json.
+  - id: tls-1.2-plus
+    conforms: true
+    evidence: >-
+      Docs state all RNDS traffic is over encrypted connections (TLS 1.2+);
+      voa.health serves TLS 1.3 with HSTS (security/voa-health-domain-security.yml).
+  - id: lgpd
+    conforms: true
+    evidence: >-
+      Docs describe LGPD-aligned handling: encrypted transport, per-submission
+      audit logging (timestamp, record id, response status), and patient access
+      to submitted records via the Conecte SUS app.
+  - id: idempotency
+    conforms: false
+    evidence: No idempotency-key mechanism documented (conventions/voa-health-conventions.yml).
+  - id: pagination
+    conforms: false
+    evidence: No collection pagination documented.
+compliance_programs:
+  - name: RNDS / DATASUS homologation
+    description: >-
+      Establishments are homologated in the RNDS homologation environment and
+      approved by DATASUS before production; submission of clinical records to
+      RNDS is mandated by Brazilian federal legislation for eligible
+      establishments.
+    docs: https://docs.voa.health/integracao/rnds/ativacao
+  - name: LGPD (Lei Geral de Proteção de Dados)
+    description: Encrypted transport, audit logging, and patient data-access rights.
+    docs: https://docs.voa.health/integracao/rnds/como-funciona

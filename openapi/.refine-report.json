@@ -1,0 +1,16 @@
+{
+  "provider": "voa-health",
+  "sources": [
+    "voa-health-authentication-api-openapi.yml",
+    "voa-health-rnds-api-openapi.yml"
+  ],
+  "outputs": [
+    "voa-health-authentication-api-openapi.yml",
+    "voa-health-rnds-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

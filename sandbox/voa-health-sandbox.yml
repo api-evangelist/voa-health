@@ -1,0 +1,43 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  https://docs.voa.health/integracao/rnds/como-funciona.md,
+  https://docs.voa.health/integracao/rnds/ativacao.md, and
+  https://docs.voa.health/integracao/iframe/autenticacao.md — Voa's documented
+  test/development posture.
+description: >-
+  Voa's test-vs-production posture. The RNDS integration validates against a
+  dedicated homologation environment before DATASUS approves production. For the
+  iFrame/plugin, a development mode uses a static Auth Token, while production
+  requires a per-consultation Bearer JWT. No public self-service sandbox keys or
+  synthetic test patient datasets are published (RNDS testing is done with the
+  Voa team using real CNES/certificate credentials).
+environments:
+  - name: homologação (RNDS)
+    kind: test
+    description: >-
+      RNDS homologation bus used for conformance testing before production;
+      submissions here are validated by DATASUS as part of activation.
+    docs: https://docs.voa.health/integracao/rnds/como-funciona
+  - name: produção (RNDS)
+    kind: live
+    description: Official RNDS submissions after DATASUS homologation approval.
+  - name: development (iFrame/plugin)
+    kind: test
+    description: >-
+      Auth Token can be used directly in every request without per-consultation
+      renewal, simplifying development.
+    docs: https://docs.voa.health/integracao/iframe/autenticacao
+  - name: production (iFrame/plugin)
+    kind: live
+    description: Each consultation requires a unique short-lived Bearer JWT.
+test_credentials:
+  self_service_sandbox_keys: false
+  synthetic_test_patients: false
+  notes: >-
+    No published test cards/tokens or synthetic patient fixtures. RNDS activation
+    is done in partnership with the Voa team using the establishment's real CNES,
+    professional CNS, and ICP-Brasil A1 certificate. Contact integration@voahealth.com.
+load_testing:
+  documented: true
+  docs: https://docs.voa.health/apendice/testes-de-carga

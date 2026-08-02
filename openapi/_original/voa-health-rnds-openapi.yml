@@ -1,0 +1,309 @@
+openapi: 3.1.0
+x-provenance:
+  generated: '2026-07-21'
+  method: derived
+  source: >-
+    Derived faithfully from the published Voa RNDS integration documentation at
+    https://docs.voa.health/integracao/rnds/endpoints.md and
+    https://docs.voa.health/integracao/rnds/como-funciona.md (request/response
+    shapes, headers, status codes, and rate limits quoted verbatim from the
+    docs). No published OpenAPI was found (openapi.json / swagger.json returned
+    404); this is a faithful reconstruction, not fabrication.
+info:
+  title: Voa RNDS Integration API
+  version: v1
+  description: >-
+    Voa's REST API for submitting clinical records from an EHR consultation to
+    Brazil's Rede Nacional de Dados em Saúde (RNDS) national health data
+    network, in FHIR R4 (Brazilian profiles). Voa assembles the FHIR Bundle
+    (Composition, Encounter, Condition, Procedure, MedicationRequest, etc.)
+    automatically and authenticates to the RNDS bus using the establishment's
+    ICP-Brasil A1 digital certificate (mTLS). All client requests use a Bearer
+    JWT. Rate limits: 1000 requests/hour and 10 requests/second per token.
+  contact:
+    name: Voa integration team
+    email: integration@voahealth.com
+    url: https://docs.voa.health/integracao/rnds
+servers:
+  - url: https://integration.voa.health/v1
+    description: Production
+security:
+  - bearerAuth: []
+tags:
+  - name: RNDS
+    description: Submit, query, replace, and delete clinical records on the RNDS national bus.
+paths:
+  /ehrs/{ehr_id}/rnds/submit:
+    post:
+      tags: [RNDS]
+      summary: Enviar registro clínico à RNDS
+      description: >-
+        Sends the clinical data of a consultation to the RNDS in FHIR R4. Voa
+        automatically builds the FHIR Bundle from the consultation documents.
+      operationId: submitRndsRecord
+      parameters:
+        - $ref: '#/components/parameters/EhrId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RndsSubmitRequest'
+      responses:
+        '200':
+          description: Registro enviado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RndsSubmitResult'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '422':
+          description: Registro rejeitado pela RNDS
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /ehrs/{ehr_id}/rnds/status:
+    get:
+      tags: [RNDS]
+      summary: Consultar status de envio
+      description: Returns the status of the last RNDS submission for a consultation.
+      operationId: getRndsStatus
+      parameters:
+        - $ref: '#/components/parameters/EhrId'
+      responses:
+        '200':
+          description: Status do envio
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RndsStatus'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /ehrs/{ehr_id}/rnds/replace:
+    put:
+      tags: [RNDS]
+      summary: Substituir registro na RNDS
+      description: Replaces a previously submitted RNDS record after corrections.
+      operationId: replaceRndsRecord
+      parameters:
+        - $ref: '#/components/parameters/EhrId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                practitioner_cns:
+                  type: string
+                  description: CNS do profissional responsável pela correção.
+      responses:
+        '200':
+          description: Registro substituído
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RndsReplaceResult'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+  /ehrs/{ehr_id}/rnds:
+    delete:
+      tags: [RNDS]
+      summary: Excluir registro da RNDS
+      description: >-
+        Removes a previously submitted RNDS record. This action is irreversible
+        on the national bus.
+      operationId: deleteRndsRecord
+      parameters:
+        - $ref: '#/components/parameters/EhrId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                practitioner_cns:
+                  type: string
+                  description: CNS do profissional que autoriza a exclusão.
+                reason:
+                  type: string
+                  description: Motivo da exclusão (obrigatório).
+      responses:
+        '200':
+          description: Registro excluído
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RndsDeleteResult'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+  /rnds/patient:
+    get:
+      tags: [RNDS]
+      summary: Consultar paciente na RNDS
+      description: Queries patient data on the RNDS national bus by CPF or CNS.
+      operationId: getRndsPatient
+      parameters:
+        - name: cpf
+          in: query
+          description: CPF do paciente (obrigatório se não informar CNS).
+          schema: { type: string }
+        - name: cns
+          in: query
+          description: CNS do paciente (obrigatório se não informar CPF).
+          schema: { type: string }
+      responses:
+        '200':
+          description: Paciente encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  patient:
+                    $ref: '#/components/schemas/Patient'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /rnds/practitioner:
+    get:
+      tags: [RNDS]
+      summary: Consultar profissional na RNDS
+      description: Queries health-professional data on the RNDS national bus by CNS.
+      operationId: getRndsPractitioner
+      parameters:
+        - name: cns
+          in: query
+          required: true
+          description: CNS do profissional de saúde (obrigatório).
+          schema: { type: string }
+      responses:
+        '200':
+          description: Profissional encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  practitioner:
+                    $ref: '#/components/schemas/Practitioner'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        Bearer JWT obtained from the Voa Auth Token via
+        POST https://api.voa.health/integration/identify/.
+  parameters:
+    EhrId:
+      name: ehr_id
+      in: path
+      required: true
+      description: Identificador da consulta / prontuário (EHR).
+      schema: { type: string, example: ehr_123456 }
+  responses:
+    ValidationError:
+      description: Erro de validação
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Não encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    RndsSubmitRequest:
+      type: object
+      required: [patient_cpf, practitioner_cns]
+      properties:
+        document_type:
+          type: string
+          enum: [RAC, RPM, REL]
+          default: RAC
+          description: 'Tipo do documento RNDS: RAC, RPM, REL.'
+        patient_cpf:
+          type: string
+          description: CPF do paciente (obrigatório).
+        patient_cns:
+          type: string
+          description: CNS do paciente (opcional, usado quando disponível).
+        practitioner_cns:
+          type: string
+          description: CNS do profissional de saúde responsável (obrigatório).
+        cnes:
+          type: string
+          description: >-
+            Código CNES do estabelecimento (obrigatório na primeira vez, depois
+            é memorizado).
+    RndsSubmitResult:
+      type: object
+      properties:
+        status: { type: string, example: submitted }
+        rnds_record_id: { type: string }
+        document_type: { type: string }
+        submitted_at: { type: string, format: date-time }
+        ehr_id: { type: string }
+    RndsStatus:
+      type: object
+      properties:
+        ehr_id: { type: string }
+        rnds_record_id: { type: string }
+        status:
+          type: string
+          enum: [pending, accepted, rejected, replaced, deleted]
+        document_type: { type: string }
+        submitted_at: { type: string, format: date-time }
+        last_updated_at: { type: string, format: date-time }
+    RndsReplaceResult:
+      type: object
+      properties:
+        status: { type: string, example: replaced }
+        rnds_record_id: { type: string }
+        previous_record_id: { type: string }
+        replaced_at: { type: string, format: date-time }
+    RndsDeleteResult:
+      type: object
+      properties:
+        status: { type: string, example: deleted }
+        rnds_record_id: { type: string }
+        deleted_at: { type: string, format: date-time }
+    Patient:
+      type: object
+      properties:
+        cpf: { type: string }
+        cns: { type: string }
+        name: { type: string }
+        birth_date: { type: string, format: date }
+        gender: { type: string }
+    Practitioner:
+      type: object
+      properties:
+        cns: { type: string }
+        name: { type: string }
+        specialty: { type: string }
+        council: { type: string }
+        council_number: { type: string }
+        council_state: { type: string }
+    Error:
+      type: object
+      description: >-
+        Voa error envelope. Not RFC 9457; uses a machine-readable `error` code,
+        a human `message`, and an optional `details` array.
+      properties:
+        error: { type: string, example: validation_error }
+        message: { type: string }
+        details:
+          type: array
+          items:
+            type: object
+            additionalProperties: true

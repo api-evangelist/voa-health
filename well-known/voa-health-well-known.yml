@@ -1,0 +1,46 @@
+generated: '2026-07-21'
+method: probed
+source: Live HTTP probes of well-known paths on Voa hosts (2026-07-21).
+description: >-
+  Probe index for standard .well-known and discovery documents across Voa hosts.
+  None are published — all probes returned 404. Recorded as valid negative
+  results.
+probes:
+  - host: voa.health
+    path: /.well-known/security.txt
+    status: 404
+  - host: app.voa.health
+    path: /.well-known/security.txt
+    status: 404
+  - host: api.voa.health
+    path: /.well-known/security.txt
+    status: 404
+  - host: voa.health
+    path: /.well-known/openid-configuration
+    status: 404
+  - host: app.voa.health
+    path: /.well-known/openid-configuration
+    status: 404
+  - host: api.voa.health
+    path: /.well-known/openid-configuration
+    status: 404
+  - host: voa.health
+    path: /.well-known/oauth-authorization-server
+    status: 404
+  - host: api.voa.health
+    path: /.well-known/oauth-authorization-server
+    status: 404
+  - host: voa.health
+    path: /.well-known/api-catalog
+    status: 404
+  - host: voa.health
+    path: /.well-known/ai-plugin.json
+    status: 404
+  - host: api.voa.health
+    path: /openapi.json
+    status: 404
+  - host: voa.health
+    path: /llms.txt
+    status: 404
+    note: The GitBook docs host publishes llms.txt at https://docs.voa.health/llms.txt (200).
+files: []

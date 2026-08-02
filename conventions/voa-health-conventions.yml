@@ -1,0 +1,55 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  https://docs.voa.health/integracao/rnds/endpoints.md,
+  https://docs.voa.health/integracao/rnds/como-funciona.md, and
+  https://docs.voa.health/integracao/iframe/autenticacao.md — cross-cutting
+  runtime conventions that apply across the Voa integration/RNDS API.
+description: >-
+  How the Voa integration and RNDS REST APIs behave across operations:
+  authentication style, versioning, rate-limit signaling, error envelope, and
+  the postMessage messaging model for the embedded iFrame/plugin surfaces.
+  Idempotency and pagination are not documented as public API features.
+base_urls:
+  integration_rnds: https://integration.voa.health/v1
+  identify: https://api.voa.health
+api_style: REST over HTTPS, JSON request/response
+authentication:
+  scheme: Bearer JWT (production) or x-voa-token Auth Token (development)
+  detail: authentication/voa-health-authentication.yml
+  docs: https://docs.voa.health/integracao/iframe/autenticacao
+versioning:
+  style: URI path prefix
+  current: v1
+  example: https://integration.voa.health/v1
+idempotency:
+  supported: false
+  notes: >-
+    No idempotency-key mechanism is documented. RNDS submit is a create; replace
+    (PUT) and delete are explicit corrective operations rather than idempotent
+    retries. Async submission is recommended due to national-bus latency.
+pagination:
+  supported: false
+  notes: No list/collection pagination is documented; RNDS queries return single records.
+error_envelope:
+  format: custom
+  shape: '{ error: <code>, message: <human>, details: [...] }'
+  detail: errors/voa-health-problem-types.yml
+rate_limiting:
+  per_token:
+    requests_per_hour: 1000
+    requests_per_second: 10
+  notes: >-
+    RNDS endpoints share the Voa API limits. National-bus round trips add 2-5s
+    latency; implement asynchronous calls to avoid blocking the user.
+  docs: https://docs.voa.health/integracao/rnds/endpoints
+messaging:
+  description: >-
+    The embedded iFrame and plugin surfaces communicate with the host page via
+    window.postMessage (typed message events), not server webhooks.
+  docs:
+    - https://docs.voa.health/integracao/iframe/tipos-de-mensagem
+    - https://docs.voa.health/integracao/plugin/mensagens
+data_standard:
+  fhir: FHIR R4 (Brazilian RNDS profiles) for all clinical records submitted to RNDS.
+  detail: conformance/voa-health-conformance.yml
