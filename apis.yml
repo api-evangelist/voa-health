@@ -100,7 +100,7 @@ common:
 - type: Support
   url: mailto:integration@voahealth.com
 - type: OpenAPI
-  url: openapi/voa-health-rnds-openapi.yml
+  url: openapi/_original/voa-health-rnds-openapi.yml
 - type: Overlay
   url: overlays/voa-health-rnds-overlay.yaml
 - type: Authentication
