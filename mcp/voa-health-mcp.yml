@@ -1,45 +1,48 @@
 generated: '2026-07-21'
 method: derived
 status: candidate
-source: >-
-  Derived from openapi/voa-health-rnds-openapi.yml operations. No official Voa
-  MCP server was found (no registry entry, no docs mention). This is a candidate
-  tool surface, not an announced product.
-description: >-
-  Candidate MCP tool surface mapped 1:1 from the documented Voa RNDS API
-  operations. Each tool would require a Bearer JWT (see
-  authentication/voa-health-authentication.yml). Not an official/hosted server.
+source: Derived from openapi/voa-health-rnds-openapi.yml operations. No official Voa MCP server was found
+  (no registry entry, no docs mention). This is a candidate tool surface, not an announced product.
+description: Candidate MCP tool surface mapped 1:1 from the documented Voa RNDS API operations. Each tool
+  would require a Bearer JWT (see authentication/voa-health-authentication.yml). Not an official/hosted
+  server.
 server:
   official: false
   hosted_url: null
 tools:
-  - name: submit_rnds_record
-    operationId: submitRndsRecord
-    method: POST
-    path: /ehrs/{ehr_id}/rnds/submit
-    description: Submit a consultation's clinical record to RNDS as a FHIR R4 Bundle.
-  - name: get_rnds_status
-    operationId: getRndsStatus
-    method: GET
-    path: /ehrs/{ehr_id}/rnds/status
-    description: Get the status of the last RNDS submission for a consultation.
-  - name: replace_rnds_record
-    operationId: replaceRndsRecord
-    method: PUT
-    path: /ehrs/{ehr_id}/rnds/replace
-    description: Replace a previously submitted RNDS record after corrections.
-  - name: delete_rnds_record
-    operationId: deleteRndsRecord
-    method: DELETE
-    path: /ehrs/{ehr_id}/rnds
-    description: Delete a previously submitted RNDS record (irreversible).
-  - name: get_rnds_patient
-    operationId: getRndsPatient
-    method: GET
-    path: /rnds/patient
-    description: Query patient demographics on the RNDS national bus by CPF or CNS.
-  - name: get_rnds_practitioner
-    operationId: getRndsPractitioner
-    method: GET
-    path: /rnds/practitioner
-    description: Query health-professional data on the RNDS national bus by CNS.
+- name: submit_rnds_record
+  operationId: submitRndsRecord
+  method: POST
+  path: /ehrs/{ehr_id}/rnds/submit
+  description: Submit a consultation's clinical record to RNDS as a FHIR R4 Bundle.
+- name: get_rnds_status
+  operationId: getRndsStatus
+  method: GET
+  path: /ehrs/{ehr_id}/rnds/status
+  description: Get the status of the last RNDS submission for a consultation.
+- name: replace_rnds_record
+  operationId: replaceRndsRecord
+  method: PUT
+  path: /ehrs/{ehr_id}/rnds/replace
+  description: Replace a previously submitted RNDS record after corrections.
+- name: delete_rnds_record
+  operationId: deleteRndsRecord
+  method: DELETE
+  path: /ehrs/{ehr_id}/rnds
+  description: Delete a previously submitted RNDS record (irreversible).
+- name: get_rnds_patient
+  operationId: getRndsPatient
+  method: GET
+  path: /rnds/patient
+  description: Query patient demographics on the RNDS national bus by CPF or CNS.
+- name: get_rnds_practitioner
+  operationId: getRndsPractitioner
+  method: GET
+  path: /rnds/practitioner
+  description: Query health-professional data on the RNDS national bus by CNS.
+deployment:
+  mode: none
+  verified: derived
+  tools: 6
+  checked: '2026-08-12'
+  source: catalog MCP census

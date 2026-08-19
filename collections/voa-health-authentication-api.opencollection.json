@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Voa Integration Identify Authentication API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Obter Bearer Token para uma consulta",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.voa.health/integration/identify/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-voa-token",
+              "value": "{{x-voa-token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns a secure Bearer JWT for a specific consultation, created from your Auth Token. Each consultation requires its own Bearer token."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

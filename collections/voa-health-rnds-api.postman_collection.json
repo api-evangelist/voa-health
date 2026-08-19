@@ -1,0 +1,986 @@
+{
+  "item": [
+    {
+      "id": "b58be55c-2365-4827-829a-678312d3a28f",
+      "name": "RNDS",
+      "description": {
+        "content": "Submit, query, replace, and delete clinical records on the RNDS national bus.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0a106448-dafa-4847-81ec-4acb9849268f",
+          "name": "Enviar registro clínico à RNDS",
+          "request": {
+            "name": "Enviar registro clínico à RNDS",
+            "description": {
+              "content": "Sends the clinical data of a consultation to the RNDS in FHIR R4. Voa automatically builds the FHIR Bundle from the consultation documents.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ehrs",
+                ":ehr_id",
+                "rnds",
+                "submit"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ehr_id",
+                  "description": "(Required) Identificador da consulta / prontuário (EHR)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patient_cpf\": \"<string>\",\n  \"practitioner_cns\": \"<string>\",\n  \"document_type\": \"RAC\",\n  \"patient_cns\": \"<string>\",\n  \"cnes\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "16856423-a6bd-4caa-bf0d-ccd6adadc905",
+              "name": "Registro enviado",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ehrs",
+                    ":ehr_id",
+                    "rnds",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ehr_id",
+                      "description": "(Required) Identificador da consulta / prontuário (EHR)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"patient_cpf\": \"<string>\",\n  \"practitioner_cns\": \"<string>\",\n  \"document_type\": \"RAC\",\n  \"patient_cns\": \"<string>\",\n  \"cnes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"submitted\",\n  \"rnds_record_id\": \"string\",\n  \"document_type\": \"string\",\n  \"submitted_at\": \"1994-02-05T11:10:00.685Z\",\n  \"ehr_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ec095b7-6c6d-440d-90fc-3ca1c157a9ec",
+              "name": "Erro de validação",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ehrs",
+                    ":ehr_id",
+                    "rnds",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ehr_id",
+                      "description": "(Required) Identificador da consulta / prontuário (EHR)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"patient_cpf\": \"<string>\",\n  \"practitioner_cns\": \"<string>\",\n  \"document_type\": \"RAC\",\n  \"patient_cns\": \"<string>\",\n  \"cnes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"validation_error\",\n  \"message\": \"string\",\n  \"details\": [\n    {\n      \"key_0\": 5965\n    },\n    {\n      \"key_0\": 7630\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "947eeef4-5b6e-4234-8f59-903c0b499ad6",
+              "name": "Registro rejeitado pela RNDS",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ehrs",
+                    ":ehr_id",
+                    "rnds",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ehr_id",
+                      "description": "(Required) Identificador da consulta / prontuário (EHR)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"patient_cpf\": \"<string>\",\n  \"practitioner_cns\": \"<string>\",\n  \"document_type\": \"RAC\",\n  \"patient_cns\": \"<string>\",\n  \"cnes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"validation_error\",\n  \"message\": \"string\",\n  \"details\": [\n    {\n      \"key_0\": 5965\n    },\n    {\n      \"key_0\": 7630\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5b4404a3-157a-4ed6-b349-13dca80fa79b",
+          "name": "Consultar status de envio",
+          "request": {
+            "name": "Consultar status de envio",
+            "description": {
+              "content": "Returns the status of the last RNDS submission for a consultation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ehrs",
+                ":ehr_id",
+                "rnds",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ehr_id",
+                  "description": "(Required) Identificador da consulta / prontuário (EHR)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b3b3b8b1-7e35-464b-a606-6d1de671526c",
+              "name": "Status do envio",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ehrs",
+                    ":ehr_id",
+                    "rnds",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ehr_id",
+                      "description": "(Required) Identificador da consulta / prontuário (EHR)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ehr_id\": \"string\",\n  \"rnds_record_id\": \"string\",\n  \"status\": \"replaced\",\n  \"document_type\": \"string\",\n  \"submitted_at\": \"1992-10-15T04:34:50.790Z\",\n  \"last_updated_at\": \"1966-05-02T20:47:45.958Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c1e1b802-d0a9-47ed-9c20-94bbca0a5d08",
+              "name": "Não encontrado",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ehrs",
+                    ":ehr_id",
+                    "rnds",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ehr_id",
+                      "description": "(Required) Identificador da consulta / prontuário (EHR)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"validation_error\",\n  \"message\": \"string\",\n  \"details\": [\n    {\n      \"key_0\": 5965\n    },\n    {\n      \"key_0\": 7630\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "25312b1f-736c-4c42-9c62-14099495badf",
+          "name": "Substituir registro na RNDS",
+          "request": {
+            "name": "Substituir registro na RNDS",
+            "description": {
+              "content": "Replaces a previously submitted RNDS record after corrections.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ehrs",
+                ":ehr_id",
+                "rnds",
+                "replace"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ehr_id",
+                  "description": "(Required) Identificador da consulta / prontuário (EHR)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"practitioner_cns\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "26cbe25b-7f34-4aa4-9760-2f73e53e5699",
+              "name": "Registro substituído",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ehrs",
+                    ":ehr_id",
+                    "rnds",
+                    "replace"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ehr_id",
+                      "description": "(Required) Identificador da consulta / prontuário (EHR)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"practitioner_cns\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"replaced\",\n  \"rnds_record_id\": \"string\",\n  \"previous_record_id\": \"string\",\n  \"replaced_at\": \"1968-10-07T15:41:43.657Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a4c9471c-4c16-480e-bc9c-705009524cc1",
+              "name": "Erro de validação",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ehrs",
+                    ":ehr_id",
+                    "rnds",
+                    "replace"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ehr_id",
+                      "description": "(Required) Identificador da consulta / prontuário (EHR)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"practitioner_cns\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"validation_error\",\n  \"message\": \"string\",\n  \"details\": [\n    {\n      \"key_0\": false\n    },\n    {\n      \"key_0\": true,\n      \"key_1\": 9360\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "81b8b2f2-9a0d-4e8b-a791-778f9202aab3",
+          "name": "Excluir registro da RNDS",
+          "request": {
+            "name": "Excluir registro da RNDS",
+            "description": {
+              "content": "Removes a previously submitted RNDS record. This action is irreversible on the national bus.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ehrs",
+                ":ehr_id",
+                "rnds"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ehr_id",
+                  "description": "(Required) Identificador da consulta / prontuário (EHR)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"<string>\",\n  \"practitioner_cns\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3adc50cb-dd5f-4833-a2cc-cb3eb7f9f4e3",
+              "name": "Registro excluído",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ehrs",
+                    ":ehr_id",
+                    "rnds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ehr_id",
+                      "description": "(Required) Identificador da consulta / prontuário (EHR)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"<string>\",\n  \"practitioner_cns\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"deleted\",\n  \"rnds_record_id\": \"string\",\n  \"deleted_at\": \"1967-03-04T07:52:13.827Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1fa242ed-d01e-468d-b589-45072d6f00be",
+              "name": "Erro de validação",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ehrs",
+                    ":ehr_id",
+                    "rnds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ehr_id",
+                      "description": "(Required) Identificador da consulta / prontuário (EHR)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"<string>\",\n  \"practitioner_cns\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"validation_error\",\n  \"message\": \"string\",\n  \"details\": [\n    {\n      \"key_0\": false\n    },\n    {\n      \"key_0\": true,\n      \"key_1\": 9360\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cb4fdeef-7567-4c60-a114-69e17e2cf2e3",
+          "name": "Consultar paciente na RNDS",
+          "request": {
+            "name": "Consultar paciente na RNDS",
+            "description": {
+              "content": "Queries patient data on the RNDS national bus by CPF or CNS.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rnds",
+                "patient"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cpf",
+                  "value": "<string>",
+                  "description": "CPF do paciente (obrigatório se não informar CNS)."
+                },
+                {
+                  "disabled": false,
+                  "key": "cns",
+                  "value": "<string>",
+                  "description": "CNS do paciente (obrigatório se não informar CPF)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f3b19c71-a73d-4892-a0e0-fd4179fc5dec",
+              "name": "Paciente encontrado",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rnds",
+                    "patient"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cpf",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cns",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"patient\": {\n    \"cpf\": \"string\",\n    \"cns\": \"string\",\n    \"name\": \"string\",\n    \"birth_date\": \"2004-10-12\",\n    \"gender\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "340d9bce-f1c8-4950-af9c-6a270dda2503",
+              "name": "Não encontrado",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rnds",
+                    "patient"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cpf",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cns",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"validation_error\",\n  \"message\": \"string\",\n  \"details\": [\n    {\n      \"key_0\": false\n    },\n    {\n      \"key_0\": true,\n      \"key_1\": 9360\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9bad9995-515f-4d11-917b-54766851ac40",
+          "name": "Consultar profissional na RNDS",
+          "request": {
+            "name": "Consultar profissional na RNDS",
+            "description": {
+              "content": "Queries health-professional data on the RNDS national bus by CNS.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rnds",
+                "practitioner"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cns",
+                  "value": "<string>",
+                  "description": "(Required) CNS do profissional de saúde (obrigatório)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d471a89d-f030-43b9-b226-7fa429218c92",
+              "name": "Profissional encontrado",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rnds",
+                    "practitioner"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cns",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"practitioner\": {\n    \"cns\": \"string\",\n    \"name\": \"string\",\n    \"specialty\": \"string\",\n    \"council\": \"string\",\n    \"council_number\": \"string\",\n    \"council_state\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c9be3a47-fd44-455e-a57a-678729fb3197",
+              "name": "Não encontrado",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rnds",
+                    "practitioner"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cns",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"validation_error\",\n  \"message\": \"string\",\n  \"details\": [\n    {\n      \"key_0\": false\n    },\n    {\n      \"key_0\": true,\n      \"key_1\": 9360\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.voa.health",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7470d339-88b7-4c04-9cd3-faf379175591",
+    "name": "Voa Integration Identify Authentication RNDS API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Exchanges a long-lived Voa Auth Token for a short-lived per-consultation Bearer JWT used to embed the Voa iFrame/plugin and to call the Voa integration APIs (including RNDS). The Auth Token is sent in the `x-voa-token` header; the returned JWT expiration is configurable via the `expiration` field (seconds).\n\nContact Support:\n Name: Voa integration team\n Email: integration@voahealth.com",
+      "type": "text/plain"
+    }
+  }
+}

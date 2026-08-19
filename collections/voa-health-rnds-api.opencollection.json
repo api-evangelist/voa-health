@@ -1,0 +1,150 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Voa Integration Identify Authentication RNDS API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "RNDS",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Enviar registro clínico à RNDS",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.voa.health/ehrs/:ehr_id/rnds/submit",
+            "params": [
+              {
+                "name": "ehr_id",
+                "value": "",
+                "type": "path",
+                "description": "Identificador da consulta / prontuário (EHR)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends the clinical data of a consultation to the RNDS in FHIR R4. Voa automatically builds the FHIR Bundle from the consultation documents."
+        },
+        {
+          "info": {
+            "name": "Consultar status de envio",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.voa.health/ehrs/:ehr_id/rnds/status",
+            "params": [
+              {
+                "name": "ehr_id",
+                "value": "",
+                "type": "path",
+                "description": "Identificador da consulta / prontuário (EHR)."
+              }
+            ]
+          },
+          "docs": "Returns the status of the last RNDS submission for a consultation."
+        },
+        {
+          "info": {
+            "name": "Substituir registro na RNDS",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.voa.health/ehrs/:ehr_id/rnds/replace",
+            "params": [
+              {
+                "name": "ehr_id",
+                "value": "",
+                "type": "path",
+                "description": "Identificador da consulta / prontuário (EHR)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replaces a previously submitted RNDS record after corrections."
+        },
+        {
+          "info": {
+            "name": "Excluir registro da RNDS",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.voa.health/ehrs/:ehr_id/rnds",
+            "params": [
+              {
+                "name": "ehr_id",
+                "value": "",
+                "type": "path",
+                "description": "Identificador da consulta / prontuário (EHR)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Removes a previously submitted RNDS record. This action is irreversible on the national bus."
+        },
+        {
+          "info": {
+            "name": "Consultar paciente na RNDS",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.voa.health/rnds/patient",
+            "params": [
+              {
+                "name": "cpf",
+                "value": "",
+                "type": "query",
+                "description": "CPF do paciente (obrigatório se não informar CNS)."
+              },
+              {
+                "name": "cns",
+                "value": "",
+                "type": "query",
+                "description": "CNS do paciente (obrigatório se não informar CPF)."
+              }
+            ]
+          },
+          "docs": "Queries patient data on the RNDS national bus by CPF or CNS."
+        },
+        {
+          "info": {
+            "name": "Consultar profissional na RNDS",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.voa.health/rnds/practitioner",
+            "params": [
+              {
+                "name": "cns",
+                "value": "",
+                "type": "query",
+                "description": "CNS do profissional de saúde (obrigatório)."
+              }
+            ]
+          },
+          "docs": "Queries health-professional data on the RNDS national bus by CNS."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

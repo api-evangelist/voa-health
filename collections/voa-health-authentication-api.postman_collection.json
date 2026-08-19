@@ -1,0 +1,151 @@
+{
+  "item": [
+    {
+      "id": "9171d011-bf72-4952-973f-6ecca5debe68",
+      "name": "Authentication",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "aca516ad-3a01-42ed-a290-97595463c6aa",
+          "name": "Obter Bearer Token para uma consulta",
+          "request": {
+            "name": "Obter Bearer Token para uma consulta",
+            "description": {
+              "content": "Returns a secure Bearer JWT for a specific consultation, created from your Auth Token. Each consultation requires its own Bearer token.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "integration",
+                "identify",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-voa-token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"consultation_id\": \"<string>\",\n  \"doctor_id\": \"<string>\",\n  \"patient_id\": \"<string>\",\n  \"expiration\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dd0e2673-b358-4ed9-be1e-a7546feb7931",
+              "name": "Bearer token emitido",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "integration",
+                    "identify",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-voa-token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"consultation_id\": \"<string>\",\n  \"doctor_id\": \"<string>\",\n  \"patient_id\": \"<string>\",\n  \"expiration\": 43200\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.voa.health",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "2c1a0641-8751-4790-9295-a5fa2f25d007",
+    "name": "Voa Integration Identify Authentication API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Exchanges a long-lived Voa Auth Token for a short-lived per-consultation Bearer JWT used to embed the Voa iFrame/plugin and to call the Voa integration APIs (including RNDS). The Auth Token is sent in the `x-voa-token` header; the returned JWT expiration is configurable via the `expiration` field (seconds).\n\nContact Support:\n Name: Voa integration team\n Email: integration@voahealth.com",
+      "type": "text/plain"
+    }
+  }
+}
