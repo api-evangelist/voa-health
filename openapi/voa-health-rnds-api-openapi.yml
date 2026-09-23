@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: Voa Integration RNDS API
   version: v1
-  description: 'Voa''s REST API for submitting clinical records from an EHR consultation to Brazil''s Rede Nacional de Dados em Saúde (RNDS) national health data network, in FHIR R4 (Brazilian profiles). Voa assembles the FHIR Bundle (Composition, Encounter, Condition, Procedure, MedicationRequest, etc.) automatically and authenticates to the RNDS bus using the establishment''s ICP-Brasil A1 digital certificate (mTLS). All client requests use a Bearer JWT. Rate limits: 1000 requests/hour and 10 requests/second per token.'
+  description: Voa's REST API for submitting clinical records from an EHR consultation to Brazil's Rede Nacional de Dados em Saúde (RNDS) national health data network, in FHIR R4 (Brazilian profiles).
   contact:
     name: Voa integration team
     email: integration@voahealth.com
@@ -197,6 +197,32 @@ components:
           items:
             type: object
             additionalProperties: true
+    RndsSubmitRequest:
+      type: object
+      required:
+      - patient_cpf
+      - practitioner_cns
+      properties:
+        document_type:
+          type: string
+          enum:
+          - RAC
+          - RPM
+          - REL
+          default: RAC
+          description: 'Tipo do documento RNDS: RAC, RPM, REL.'
+        patient_cpf:
+          type: string
+          description: CPF do paciente (obrigatório).
+        patient_cns:
+          type: string
+          description: CNS do paciente (opcional, usado quando disponível).
+        practitioner_cns:
+          type: string
+          description: CNS do profissional de saúde responsável (obrigatório).
+        cnes:
+          type: string
+          description: Código CNES do estabelecimento (obrigatório na primeira vez, depois é memorizado).
     RndsReplaceResult:
       type: object
       properties:
@@ -210,20 +236,6 @@ components:
         replaced_at:
           type: string
           format: date-time
-    Patient:
-      type: object
-      properties:
-        cpf:
-          type: string
-        cns:
-          type: string
-        name:
-          type: string
-        birth_date:
-          type: string
-          format: date
-        gender:
-          type: string
     Practitioner:
       type: object
       properties:
@@ -238,6 +250,35 @@ components:
         council_number:
           type: string
         council_state:
+          type: string
+    RndsSubmitResult:
+      type: object
+      properties:
+        status:
+          type: string
+          example: submitted
+        rnds_record_id:
+          type: string
+        document_type:
+          type: string
+        submitted_at:
+          type: string
+          format: date-time
+        ehr_id:
+          type: string
+    Patient:
+      type: object
+      properties:
+        cpf:
+          type: string
+        cns:
+          type: string
+        name:
+          type: string
+        birth_date:
+          type: string
+          format: date
+        gender:
           type: string
     RndsDeleteResult:
       type: object
@@ -273,47 +314,6 @@ components:
         last_updated_at:
           type: string
           format: date-time
-    RndsSubmitResult:
-      type: object
-      properties:
-        status:
-          type: string
-          example: submitted
-        rnds_record_id:
-          type: string
-        document_type:
-          type: string
-        submitted_at:
-          type: string
-          format: date-time
-        ehr_id:
-          type: string
-    RndsSubmitRequest:
-      type: object
-      required:
-      - patient_cpf
-      - practitioner_cns
-      properties:
-        document_type:
-          type: string
-          enum:
-          - RAC
-          - RPM
-          - REL
-          default: RAC
-          description: 'Tipo do documento RNDS: RAC, RPM, REL.'
-        patient_cpf:
-          type: string
-          description: CPF do paciente (obrigatório).
-        patient_cns:
-          type: string
-          description: CNS do paciente (opcional, usado quando disponível).
-        practitioner_cns:
-          type: string
-          description: CNS do profissional de saúde responsável (obrigatório).
-        cnes:
-          type: string
-          description: Código CNES do estabelecimento (obrigatório na primeira vez, depois é memorizado).
   responses:
     NotFound:
       description: Não encontrado
