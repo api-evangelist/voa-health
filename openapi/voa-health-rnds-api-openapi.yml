@@ -183,48 +183,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Practitioner:
-      type: object
-      properties:
-        cns:
-          type: string
-        name:
-          type: string
-        specialty:
-          type: string
-        council:
-          type: string
-        council_number:
-          type: string
-        council_state:
-          type: string
-    Error:
-      type: object
-      description: Voa error envelope. Not RFC 9457; uses a machine-readable `error` code, a human `message`, and an optional `details` array.
-      properties:
-        error:
-          type: string
-          example: validation_error
-        message:
-          type: string
-        details:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-    RndsReplaceResult:
-      type: object
-      properties:
-        status:
-          type: string
-          example: replaced
-        rnds_record_id:
-          type: string
-        previous_record_id:
-          type: string
-        replaced_at:
-          type: string
-          format: date-time
     RndsDeleteResult:
       type: object
       properties:
@@ -236,35 +194,6 @@ components:
         deleted_at:
           type: string
           format: date-time
-    Patient:
-      type: object
-      properties:
-        cpf:
-          type: string
-        cns:
-          type: string
-        name:
-          type: string
-        birth_date:
-          type: string
-          format: date
-        gender:
-          type: string
-    RndsSubmitResult:
-      type: object
-      properties:
-        status:
-          type: string
-          example: submitted
-        rnds_record_id:
-          type: string
-        document_type:
-          type: string
-        submitted_at:
-          type: string
-          format: date-time
-        ehr_id:
-          type: string
     RndsStatus:
       type: object
       properties:
@@ -314,15 +243,86 @@ components:
         cnes:
           type: string
           description: Código CNES do estabelecimento (obrigatório na primeira vez, depois é memorizado).
+    RndsReplaceResult:
+      type: object
+      properties:
+        status:
+          type: string
+          example: replaced
+        rnds_record_id:
+          type: string
+        previous_record_id:
+          type: string
+        replaced_at:
+          type: string
+          format: date-time
+    RndsSubmitResult:
+      type: object
+      properties:
+        status:
+          type: string
+          example: submitted
+        rnds_record_id:
+          type: string
+        document_type:
+          type: string
+        submitted_at:
+          type: string
+          format: date-time
+        ehr_id:
+          type: string
+    Practitioner:
+      type: object
+      properties:
+        cns:
+          type: string
+        name:
+          type: string
+        specialty:
+          type: string
+        council:
+          type: string
+        council_number:
+          type: string
+        council_state:
+          type: string
+    Error:
+      type: object
+      description: Voa error envelope. Not RFC 9457; uses a machine-readable `error` code, a human `message`, and an optional `details` array.
+      properties:
+        error:
+          type: string
+          example: validation_error
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    Patient:
+      type: object
+      properties:
+        cpf:
+          type: string
+        cns:
+          type: string
+        name:
+          type: string
+        birth_date:
+          type: string
+          format: date
+        gender:
+          type: string
   responses:
-    NotFound:
-      description: Não encontrado
+    ValidationError:
+      description: Erro de validação
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: Erro de validação
+    NotFound:
+      description: Não encontrado
       content:
         application/json:
           schema:
