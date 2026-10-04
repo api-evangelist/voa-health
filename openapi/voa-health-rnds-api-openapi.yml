@@ -182,18 +182,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    EhrId:
+      name: ehr_id
+      in: path
+      required: true
+      description: Identificador da consulta / prontuário (EHR).
+      schema:
+        type: string
+        example: ehr_123456
   schemas:
-    RndsDeleteResult:
-      type: object
-      properties:
-        status:
-          type: string
-          example: deleted
-        rnds_record_id:
-          type: string
-        deleted_at:
-          type: string
-          format: date-time
     RndsStatus:
       type: object
       properties:
@@ -243,19 +241,6 @@ components:
         cnes:
           type: string
           description: Código CNES do estabelecimento (obrigatório na primeira vez, depois é memorizado).
-    RndsReplaceResult:
-      type: object
-      properties:
-        status:
-          type: string
-          example: replaced
-        rnds_record_id:
-          type: string
-        previous_record_id:
-          type: string
-        replaced_at:
-          type: string
-          format: date-time
     RndsSubmitResult:
       type: object
       properties:
@@ -314,28 +299,43 @@ components:
           format: date
         gender:
           type: string
+    RndsDeleteResult:
+      type: object
+      properties:
+        status:
+          type: string
+          example: deleted
+        rnds_record_id:
+          type: string
+        deleted_at:
+          type: string
+          format: date-time
+    RndsReplaceResult:
+      type: object
+      properties:
+        status:
+          type: string
+          example: replaced
+        rnds_record_id:
+          type: string
+        previous_record_id:
+          type: string
+        replaced_at:
+          type: string
+          format: date-time
   responses:
-    ValidationError:
-      description: Erro de validação
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Não encontrado
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    EhrId:
-      name: ehr_id
-      in: path
-      required: true
-      description: Identificador da consulta / prontuário (EHR).
-      schema:
-        type: string
-        example: ehr_123456
+    ValidationError:
+      description: Erro de validação
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
