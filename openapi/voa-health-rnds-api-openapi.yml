@@ -182,39 +182,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    EhrId:
-      name: ehr_id
-      in: path
-      required: true
-      description: Identificador da consulta / prontuário (EHR).
-      schema:
-        type: string
-        example: ehr_123456
   schemas:
-    RndsStatus:
-      type: object
-      properties:
-        ehr_id:
-          type: string
-        rnds_record_id:
-          type: string
-        status:
-          type: string
-          enum:
-          - pending
-          - accepted
-          - rejected
-          - replaced
-          - deleted
-        document_type:
-          type: string
-        submitted_at:
-          type: string
-          format: date-time
-        last_updated_at:
-          type: string
-          format: date-time
     RndsSubmitRequest:
       type: object
       required:
@@ -241,21 +209,19 @@ components:
         cnes:
           type: string
           description: Código CNES do estabelecimento (obrigatório na primeira vez, depois é memorizado).
-    RndsSubmitResult:
+    RndsReplaceResult:
       type: object
       properties:
         status:
           type: string
-          example: submitted
+          example: replaced
         rnds_record_id:
           type: string
-        document_type:
+        previous_record_id:
           type: string
-        submitted_at:
+        replaced_at:
           type: string
           format: date-time
-        ehr_id:
-          type: string
     Practitioner:
       type: object
       properties:
@@ -285,6 +251,55 @@ components:
           items:
             type: object
             additionalProperties: true
+    RndsSubmitResult:
+      type: object
+      properties:
+        status:
+          type: string
+          example: submitted
+        rnds_record_id:
+          type: string
+        document_type:
+          type: string
+        submitted_at:
+          type: string
+          format: date-time
+        ehr_id:
+          type: string
+    RndsStatus:
+      type: object
+      properties:
+        ehr_id:
+          type: string
+        rnds_record_id:
+          type: string
+        status:
+          type: string
+          enum:
+          - pending
+          - accepted
+          - rejected
+          - replaced
+          - deleted
+        document_type:
+          type: string
+        submitted_at:
+          type: string
+          format: date-time
+        last_updated_at:
+          type: string
+          format: date-time
+    RndsDeleteResult:
+      type: object
+      properties:
+        status:
+          type: string
+          example: deleted
+        rnds_record_id:
+          type: string
+        deleted_at:
+          type: string
+          format: date-time
     Patient:
       type: object
       properties:
@@ -299,30 +314,6 @@ components:
           format: date
         gender:
           type: string
-    RndsDeleteResult:
-      type: object
-      properties:
-        status:
-          type: string
-          example: deleted
-        rnds_record_id:
-          type: string
-        deleted_at:
-          type: string
-          format: date-time
-    RndsReplaceResult:
-      type: object
-      properties:
-        status:
-          type: string
-          example: replaced
-        rnds_record_id:
-          type: string
-        previous_record_id:
-          type: string
-        replaced_at:
-          type: string
-          format: date-time
   responses:
     NotFound:
       description: Não encontrado
@@ -336,6 +327,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    EhrId:
+      name: ehr_id
+      in: path
+      required: true
+      description: Identificador da consulta / prontuário (EHR).
+      schema:
+        type: string
+        example: ehr_123456
   securitySchemes:
     bearerAuth:
       type: http
